@@ -1,0 +1,36 @@
+app-id: io.github.open-typer
+runtime: org.kde.Platform
+runtime-version: '5.15-24.08'
+sdk: org.kde.Platform
+command: run.sh
+separate-locales: false
+rename-desktop-file: open-typer-appimage.desktop
+finish-args:
+  - --socket=x11
+modules:
+  - name: appimage
+    buildsystem: simple
+    sources:
+      - type: file
+        only-arches:
+          - x86_64
+        url: https://github.com/Open-Typer/Open-Typer/releases/download/v5.2.1/Open-Typer-x86_64.AppImage
+        sha256: d3208cf7ecaf2f5448b44973963a688554cb8ff56f542682018e8e214e18a773
+      - type: file
+        only-arches:
+          - aarch64
+        url: https://github.com/Open-Typer/Open-Typer/releases/download/v5.2.1/Open-Typer-aarch64.AppImage
+        sha256: f936abd218e61f050c74dd8db4a5dcc3e0afbb2f35e65b6cfb7df23a50940527
+      - type: file
+        path: run.sh
+    build-commands:
+      - chmod +x Open-Typer*.AppImage
+      - ./Open-Typer*.AppImage --appimage-extract
+      - mv squashfs-root/* ${FLATPAK_DEST}/
+      - mkdir -p "${FLATPAK_DEST}/share/applications"
+      - mv "${FLATPAK_DEST}/usr/share/icons" "${FLATPAK_DEST}/share/"
+      - ls -alh "${FLATPAK_DEST}"
+      - ls -alh "${FLATPAK_DEST}/usr/share/applications"
+      - mv "${FLATPAK_DEST}/usr/share/applications/open-typer-appimage.desktop" "${FLATPAK_DEST}/share/applications/"
+      - install -Dm0755 run.sh "${FLATPAK_DEST}/bin/run.sh"
+
