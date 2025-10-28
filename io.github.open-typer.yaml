@@ -1,6 +1,6 @@
 app-id: io.github.open-typer
 runtime: org.kde.Platform
-runtime-version: '5.15-24.08'
+runtime-version: '5.15-25.08'
 sdk: org.kde.Platform
 command: run.sh
 separate-locales: false

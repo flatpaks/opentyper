@@ -57,14 +57,12 @@ jobs:
           sudo rm -rf /opt/pakrepo/
           sudo mkdir -p /opt/pakrepo
           sudo chown "$USER" /opt/pakrepo
-          sudo flatpak update --noninteractive -y
-          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-          sudo flatpak install --noninteractive --arch=x86_64 flathub -y org.kde.Platform//5.15-24.08
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
       - name: build flatpaks
         shell: bash
         run: |
           # amd64
-          flatpak-builder --arch=x86_64 --gpg-sign=FBEF43DC8C6BE9A7 --repo=/opt/pakrepo --force-clean .builddir io.github.open-typer.yaml
+          flatpak-builder --user --install-deps-from=flathub --arch=x86_64 --gpg-sign=FBEF43DC8C6BE9A7 --repo=/opt/pakrepo --force-clean .builddir io.github.open-typer.yaml
           flatpak build-bundle --arch=x86_64 /opt/pakrepo ./open-typer.flatpak io.github.open-typer master
           sha256sum ./open-typer.flatpak | tee -a checksums.txt
       - name: Upload checksums.txt
