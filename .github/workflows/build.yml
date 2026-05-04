@@ -81,7 +81,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         env:
           VERSION: "5.2.1"
-        uses: AButler/upload-release-assets@v3.0
+        uses: AButler/upload-release-assets@v4.0
         with:
           release-tag: ${{ env.VERSION }}
           files: "open-typer.flatpak;checksums.txt"
