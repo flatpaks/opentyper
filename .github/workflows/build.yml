@@ -40,6 +40,7 @@ jobs:
         env:
           GPG_KEY: ${{secrets.GPG_KEY}}
         run: |
+          sudo add-apt-repository ppa:flatpak/stable -y
           sudo apt-get update
           sudo apt-get install -qq -y gpg openssh-client
           echo "$GPG_KEY" | gpg --import
